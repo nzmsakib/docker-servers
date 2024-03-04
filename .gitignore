@@ -1,0 +1,8 @@
+# Ignore everything
+*
+
+# But not the root files
+!/*
+
+# But not the root directories
+!*/
