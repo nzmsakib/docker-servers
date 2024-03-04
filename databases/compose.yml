@@ -12,6 +12,34 @@ services:
       - load_balancer
     volumes:
       - ./mariadb_latest:/var/lib/mysql
+  
+  postgres_latest:
+    container_name: postgres_latest
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
+    networks:
+      - load_balancer
+    volumes:
+      - ./postgres_latest:/var/lib/postgresql/data
+
+  mongodb_latest:
+    container_name: mongodb_latest
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - 27017:27017
+    networks:
+      - load_balancer
+    volumes:
+      - ./mongodb_latest:/data/db
 
   phpmyadmin_latest:
     container_name: phpmyadmin_latest
@@ -23,6 +51,34 @@ services:
       PMA_HOST: mariadb_latest
     depends_on:
       - mariadb_latest
+    networks:
+      - load_balancer
+
+  adminer_latest:
+    container_name: adminer_latest
+    image: adminer:latest
+    ports:
+      - 8080:8080
+    restart: always
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres_latest
+    depends_on:
+      - postgres_latest
+    networks:
+      - load_balancer
+
+  mongo-express_latest:
+    container_name: mongo-express_latest
+    image: mongo-express:latest
+    ports:
+      - 8081:8081
+    restart: always
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://root:root@mongodb_latest:27017/
+      ME_CONFIG_MONGODB_AUTH_USERNAME: root
+      ME_CONFIG_MONGODB_AUTH_PASSWORD: root
+    depends_on:
+      - mongodb_latest
     networks:
       - load_balancer
 
