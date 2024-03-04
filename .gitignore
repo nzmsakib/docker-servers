@@ -6,3 +6,8 @@
 
 # But not the root directories
 !*/
+
+# Allow these files
+!**/*.yml
+
+# ...even if they are in subdirectories

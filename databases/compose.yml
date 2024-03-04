@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  mariadb_latest:
+    container_name: mariadb_latest
+    image: mariadb:latest
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+    ports:
+      - 9906:3306
+    networks:
+      - load_balancer
+    volumes:
+      - ./mariadb_latest:/var/lib/mysql
+
+  phpmyadmin_latest:
+    container_name: phpmyadmin_latest
+    image: phpmyadmin:latest
+    ports:
+      - 8888:80
+    restart: always
+    environment:
+      PMA_HOST: mariadb_latest
+    depends_on:
+      - mariadb_latest
+    networks:
+      - load_balancer
+
+networks:
+  load_balancer:
+    driver: bridge
+    name: docker_database_server_network
