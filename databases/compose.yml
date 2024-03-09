@@ -3,7 +3,7 @@ services:
   mariadb_latest:
     container_name: mariadb_latest
     image: mariadb:latest
-    restart: always
+    restart: "no"
     environment:
       MARIADB_ROOT_PASSWORD: root
     ports:
@@ -16,7 +16,7 @@ services:
   postgres_latest:
     container_name: postgres_latest
     image: postgres:latest
-    restart: always
+    restart: "no"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -30,7 +30,7 @@ services:
   mongodb_latest:
     container_name: mongodb_latest
     image: mongo:latest
-    restart: always
+    restart: "no"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
@@ -46,7 +46,7 @@ services:
     image: phpmyadmin:latest
     ports:
       - 8888:80
-    restart: always
+    restart: "no"
     environment:
       PMA_HOST: mariadb_latest
     depends_on:
@@ -59,7 +59,7 @@ services:
     image: adminer:latest
     ports:
       - 8080:8080
-    restart: always
+    restart: "no"
     environment:
       ADMINER_DEFAULT_SERVER: postgres_latest
     depends_on:
@@ -72,7 +72,7 @@ services:
     image: mongo-express:latest
     ports:
       - 8081:8081
-    restart: always
+    restart: "no"
     environment:
       ME_CONFIG_MONGODB_URL: mongodb://root:root@mongodb_latest:27017/
       ME_CONFIG_MONGODB_AUTH_USERNAME: root
